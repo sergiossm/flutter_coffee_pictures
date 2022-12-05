@@ -53,12 +53,12 @@ class CoffeePicture extends Equatable {
   /// {@macro coffeePicture}
   CoffeePicture copyWith({
     String? id,
-    required String file,
+    String? file,
     bool? isDownloaded,
   }) {
     return CoffeePicture(
       id: id ?? this.id,
-      file: file,
+      file: file ?? this.file,
       isDownloaded: isDownloaded ?? this.isDownloaded,
     );
   }
