@@ -5,6 +5,10 @@ publish_to: none
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
+  
+dependencies:
+  coffee_pictures_api:
+    path: ../coffee_pictures_api
 
 dev_dependencies:
   mocktail: ^0.3.0

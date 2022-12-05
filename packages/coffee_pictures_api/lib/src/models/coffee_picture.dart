@@ -7,7 +7,7 @@ import 'package:uuid/uuid.dart';
 part 'coffee_picture.g.dart';
 
 /// {@template coffeePicture}
-/// A single coffe picture item.
+/// A single coffee picture item.
 ///
 /// Contains a [file] and [id], in addition to a [isDownloaded]
 /// flag.
@@ -38,7 +38,7 @@ class CoffeePicture extends Equatable {
   /// Cannot be empty.
   final String id;
 
-  /// The url of the coffe picture.
+  /// The url of the coffee picture.
   ///
   /// Cannot be empty.
   final String file;

@@ -13,7 +13,7 @@ abstract class CoffeePicturesApi {
   /// {@macro coffee_pictures_api}
   const CoffeePicturesApi();
 
-  /// Fetches a coffe picture.
+  /// Fetches a coffee picture.
   ///
   /// Returns a random coffee picture.
   Future<CoffeePicture> fetchCoffeePicture();
