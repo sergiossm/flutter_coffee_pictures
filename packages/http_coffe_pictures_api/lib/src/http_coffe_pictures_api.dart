@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'dart:convert';
 
 import 'package:coffee_pictures_api/coffee_pictures_api.dart';
@@ -10,7 +12,7 @@ class HttpCoffePicturesApi extends CoffeePicturesApi {
   /// {@macro http_coffe_pictures_api}
   HttpCoffePicturesApi({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
 
-  static const _baseUrlCoffeePictures = 'coffee.alexflipnote.dev/';
+  static const _baseUrlCoffeePictures = 'coffee.alexflipnote.dev';
 
   final http.Client _httpClient;
 
