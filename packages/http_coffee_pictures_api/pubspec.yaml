@@ -1,4 +1,4 @@
-name: http_coffe_pictures_api
+name: http_coffee_pictures_api
 description: A Flutter implementation of the CoffeePicturesApi that uses HTTP.
 version: 0.1.0+1
 publish_to: none

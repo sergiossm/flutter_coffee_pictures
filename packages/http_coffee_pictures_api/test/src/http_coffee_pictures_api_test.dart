@@ -3,7 +3,7 @@
 import 'package:coffee_pictures_api/coffee_pictures_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_coffe_pictures_api/http_coffe_pictures_api.dart';
+import 'package:http_coffee_pictures_api/http_coffee_pictures_api.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
@@ -13,9 +13,9 @@ class MockResponse extends Mock implements http.Response {}
 class FakeUri extends Fake implements Uri {}
 
 void main() {
-  group('HttpCoffePicturesApi', () {
+  group('HttpCoffeePicturesApi', () {
     late http.Client httpClient;
-    late HttpCoffePicturesApi httpCoffePicturesApi;
+    late HttpCoffeePicturesApi httpCoffeePicturesApi;
 
     setUpAll(() {
       registerFallbackValue(FakeUri());
@@ -23,12 +23,12 @@ void main() {
 
     setUp(() {
       httpClient = MockHttpClient();
-      httpCoffePicturesApi = HttpCoffePicturesApi(httpClient: httpClient);
+      httpCoffeePicturesApi = HttpCoffeePicturesApi(httpClient: httpClient);
     });
 
     group('constructor', () {
       test('does not require an httpClient', () {
-        expect(HttpCoffePicturesApi(), isNotNull);
+        expect(HttpCoffeePicturesApi(), isNotNull);
       });
     });
 
@@ -39,7 +39,7 @@ void main() {
         when(() => response.body).thenReturn('{}');
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
         try {
-          await httpCoffePicturesApi.fetchCoffeePicture();
+          await httpCoffeePicturesApi.fetchCoffeePicture();
         } catch (_) {}
         verify(
           () => httpClient.get(
@@ -53,7 +53,7 @@ void main() {
         when(() => response.statusCode).thenReturn(400);
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
         expect(
-          () async => httpCoffePicturesApi.fetchCoffeePicture(),
+          () async => httpCoffeePicturesApi.fetchCoffeePicture(),
           throwsA(isA<CoffeePicturesRequestFailure>()),
         );
       });
@@ -64,7 +64,7 @@ void main() {
         when(() => response.body).thenReturn('{}');
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
         expect(
-          () async => httpCoffePicturesApi.fetchCoffeePicture(),
+          () async => httpCoffeePicturesApi.fetchCoffeePicture(),
           throwsA(isA<CoffeePictureFileNotFoundFailure>()),
         );
       });
@@ -80,7 +80,7 @@ void main() {
         ''',
         );
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
-        final actual = await httpCoffePicturesApi.fetchCoffeePicture();
+        final actual = await httpCoffeePicturesApi.fetchCoffeePicture();
         expect(
           actual,
           isA<CoffeePicture>().having(

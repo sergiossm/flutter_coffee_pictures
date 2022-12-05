@@ -5,12 +5,12 @@ import 'dart:convert';
 import 'package:coffee_pictures_api/coffee_pictures_api.dart';
 import 'package:http/http.dart' as http;
 
-/// {@template http_coffe_pictures_api}
+/// {@template http_cofee_pictures_api}
 /// A Flutter implementation of the CoffeePicturesApi that uses HTTP.
 /// {@endtemplate}
-class HttpCoffePicturesApi extends CoffeePicturesApi {
-  /// {@macro http_coffe_pictures_api}
-  HttpCoffePicturesApi({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
+class HttpCoffeePicturesApi extends CoffeePicturesApi {
+  /// {@macro http_cofee_pictures_api}
+  HttpCoffeePicturesApi({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
 
   static const _baseUrlCoffeePictures = 'coffee.alexflipnote.dev';
 

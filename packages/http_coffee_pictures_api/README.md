@@ -10,11 +10,11 @@ A Flutter implementation of the CoffeePicturesApi that uses HTTP.
 
 **❗ In order to start using Http Coffe Pictures Api you must have the [Flutter SDK][flutter_install_link] installed on your machine.**
 
-Add `http_coffe_pictures_api` to your `pubspec.yaml`:
+Add `http_cofee_pictures_api` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  http_coffe_pictures_api:
+  http_cofee_pictures_api:
 ```
 
 Install it:
