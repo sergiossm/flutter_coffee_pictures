@@ -8,17 +8,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCoffeePicturesRepository extends Mock
-    implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(
     Widget widget, {
-    CoffeePicturesRepository? todosRepository,
+    CoffeePicturesRepository? coffeePicturesRepository,
   }) {
     return pumpWidget(
       RepositoryProvider.value(
-        value: todosRepository ?? MockCoffeePicturesRepository(),
+        value: coffeePicturesRepository ?? MockCoffeePicturesRepository(),
         child: MaterialApp(
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -37,7 +36,7 @@ extension PumpApp on WidgetTester {
   }) {
     return pumpApp(
       Navigator(onGenerateRoute: (_) => route),
-      todosRepository: todosRepository,
+      coffeePicturesRepository: todosRepository,
     );
   }
 }

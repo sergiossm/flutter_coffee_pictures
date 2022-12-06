@@ -31,27 +31,27 @@ class CoffeePictureView extends StatelessWidget {
       appBar: AppBar(
         title: Text(l10n.coffeePictureAppBarTitle),
       ),
-      body: BlocListener<CoffeePictureBloc, CoffeePictureState>(
-        listener: (context, state) =>
-            BlocListener<CoffeePictureBloc, CoffeePictureState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.status == CoffeePictureStatus.failure) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.coffeePictureErrorSnackbarText),
-                  ),
-                );
-            }
-          },
-        ),
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<CoffeePictureBloc, CoffeePictureState>(
+            listenWhen: (previous, current) => previous.status != current.status,
+            listener: (context, state) {
+              if (state.status == CoffeePictureStatus.failure) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.coffeePictureErrorSnackbarText),
+                    ),
+                  );
+              }
+            },
+          ),
+        ],
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
             if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial ||
-                  state.status == CoffeePictureStatus.loading) {
+              if (state.status == CoffeePictureStatus.initial || state.status == CoffeePictureStatus.loading) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
