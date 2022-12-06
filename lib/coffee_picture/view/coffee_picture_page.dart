@@ -34,7 +34,8 @@ class CoffeePictureView extends StatelessWidget {
       body: MultiBlocListener(
         listeners: [
           BlocListener<CoffeePictureBloc, CoffeePictureState>(
-            listenWhen: (previous, current) => previous.status != current.status,
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
             listener: (context, state) {
               if (state.status == CoffeePictureStatus.failure) {
                 ScaffoldMessenger.of(context)
@@ -51,7 +52,8 @@ class CoffeePictureView extends StatelessWidget {
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
             if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial || state.status == CoffeePictureStatus.loading) {
+              if (state.status == CoffeePictureStatus.initial ||
+                  state.status == CoffeePictureStatus.loading) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );

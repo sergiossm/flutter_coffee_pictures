@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:coffee_pictures_repository/coffee_pictures_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 extension PumpApp on WidgetTester {
   Future<void> pumpApp(

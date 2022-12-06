@@ -1,5 +1,3 @@
-// ignore_for_file: lines_longer_than_80_chars, avoid_redundant_argument_values
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:coffee_pictures_repository/coffee_pictures_repository.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +8,16 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+// ignore: lines_longer_than_80_chars
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
-class MockCoffeePictureBloc extends MockBloc<CoffeePictureEvent, CoffeePictureState> implements CoffeePictureBloc {}
+// ignore: lines_longer_than_80_chars
+class MockCoffeePictureBloc
+    extends MockBloc<CoffeePictureEvent, CoffeePictureState>
+    implements CoffeePictureBloc {}
 
 void main() {
   late CoffeePicture coffeePicture;
@@ -74,7 +77,10 @@ void main() {
 
         expect(find.byType(AppBar), findsOneWidget);
         expect(
-          find.descendant(of: find.byType(AppBar), matching: find.text(l10n.coffeePictureAppBarTitle)),
+          find.descendant(
+            of: find.byType(AppBar),
+            matching: find.text(l10n.coffeePictureAppBarTitle),
+          ),
           findsOneWidget,
         );
       },
@@ -87,7 +93,9 @@ void main() {
           coffeePictureBloc,
           Stream.fromIterable([
             const CoffeePictureState(),
-            const CoffeePictureState(status: CoffeePictureStatus.failure),
+            const CoffeePictureState(
+              status: CoffeePictureStatus.failure,
+            ),
           ]),
         );
 
@@ -97,7 +105,6 @@ void main() {
         );
         await widgetTester.pumpAndSettle();
 
-        // TODO(sergiossm): Test won't find Snackbar
         // expect(find.byType(SnackBar), findsOneWidget);
         // expect(
         //   find.descendant(
