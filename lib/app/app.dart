@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_coffee_pictures/coffee_picture/view/coffee_picture_page.dart';
 import 'package:flutter_coffee_pictures/l10n/l10n.dart';
+import 'package:flutter_coffee_pictures/theme/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key, required this.coffeePicturesRepository});
@@ -23,12 +24,12 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      // theme: FlutterTodosTheme.light,
-      // darkTheme: FlutterTodosTheme.dark,
+    return MaterialApp(
+      theme: FlutterCoffeePicturesTheme.light,
+      darkTheme: FlutterCoffeePicturesTheme.dark,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: CoffeePicturePage(),
+      home: const CoffeePicturePage(),
     );
   }
 }

@@ -14,5 +14,5 @@ class CoffeePicturesRepository {
   /// Fetches a coffee picture.
   ///
   /// Returns a random coffee picture.
-  Future<CoffeePicture> fetchCoffeePicture() async => _coffeePicturesApi.fetchCoffeePicture();
+  Future<CoffeePicture> fetchCoffeePicture() => _coffeePicturesApi.fetchCoffeePicture();
 }
