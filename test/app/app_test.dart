@@ -8,7 +8,7 @@ import 'package:flutter_coffee_pictures/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
