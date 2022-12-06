@@ -17,7 +17,8 @@ void bootstrap({required CoffeePicturesApi coffeePicturesApi}) {
 
   Bloc.observer = AppBlocObserver();
 
-  final coffeePicturesRepository = CoffeePicturesRepository(coffeePicturesApi: coffeePicturesApi);
+  final coffeePicturesRepository =
+      CoffeePicturesRepository(coffeePicturesApi: coffeePicturesApi);
 
   runZonedGuarded(
     () => runApp(App(coffeePicturesRepository: coffeePicturesRepository)),

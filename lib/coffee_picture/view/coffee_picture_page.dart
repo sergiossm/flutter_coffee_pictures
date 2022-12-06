@@ -32,7 +32,8 @@ class CoffeePictureView extends StatelessWidget {
         title: Text(l10n.coffeePictureAppBarTitle),
       ),
       body: BlocListener<CoffeePictureBloc, CoffeePictureState>(
-        listener: (context, state) => BlocListener<CoffeePictureBloc, CoffeePictureState>(
+        listener: (context, state) =>
+            BlocListener<CoffeePictureBloc, CoffeePictureState>(
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status == CoffeePictureStatus.failure) {
@@ -49,8 +50,11 @@ class CoffeePictureView extends StatelessWidget {
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
             if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial || state.status == CoffeePictureStatus.loading) {
-                return const Center(child: CircularProgressIndicator.adaptive());
+              if (state.status == CoffeePictureStatus.initial ||
+                  state.status == CoffeePictureStatus.loading) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
               } else if (state.status != CoffeePictureStatus.success) {
                 return const SizedBox();
               }
