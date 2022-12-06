@@ -1,6 +1,9 @@
-import 'package:flutter_coffee_pictures/app/app.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_coffee_pictures/bootstrap.dart';
+import 'package:http_coffee_pictures_api/http_coffee_pictures_api.dart';
 
 void main() {
-  bootstrap(() => const App());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  bootstrap(coffeePicturesApi: HttpCoffeePicturesApi());
 }

@@ -5,19 +5,28 @@ publish_to: none
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
-  flutter: 3.3.8
 
 dependencies:
   bloc: ^8.1.0
+  coffee_pictures_api:
+    path: packages/coffee_pictures_api
+  coffee_pictures_repository:
+    path: packages/coffee_pictures_repository
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
+  http_coffee_pictures_api:
+    path: packages/http_coffee_pictures_api
   intl: ^0.17.0
+  json_annotation: ^4.7.0
+
 
 dev_dependencies:
   bloc_test: ^9.1.0
+  build_runner: ^2.0.0
   flutter_test:
     sdk: flutter
   mocktail: ^0.3.0
