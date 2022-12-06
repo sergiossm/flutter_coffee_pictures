@@ -47,9 +47,9 @@ void main() {
 
       expect(find.byType(MaterialApp), findsOneWidget);
 
-      final materialApp = widgetTester.widget<MaterialApp>(find.byType(
-        MaterialApp,
-      ));
+      final materialApp = widgetTester.widget<MaterialApp>(
+        find.byType(MaterialApp),
+      );
       expect(materialApp.theme, equals(FlutterCoffeePicturesTheme.light));
       expect(materialApp.darkTheme, equals(FlutterCoffeePicturesTheme.dark));
     });
