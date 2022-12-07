@@ -28,7 +28,8 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
     emit(state.copyWith(status: () => CoffeePictureStatus.loading));
 
     try {
-      final coffeePicture = await _coffeePicturesRepository.fetchCoffeePicture();
+      final coffeePicture =
+          await _coffeePicturesRepository.fetchCoffeePicture();
       emit(
         state.copyWith(
           status: () => CoffeePictureStatus.success,
@@ -55,24 +56,30 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
       ),
     );
     try {
-      final bytes = await _coffeePicturesRepository.downloadCoffeePicture(url: state.coffeePicture!.file);
+      final bytes = await _coffeePicturesRepository.downloadCoffeePicture(
+          url: state.coffeePicture!.file);
 
       if (bytes.isEmpty) {
         emit(
-          state.copyWith(downloadStatus: () => CoffeePictureDownloadStatus.failure),
+          state.copyWith(
+              downloadStatus: () => CoffeePictureDownloadStatus.failure),
         );
       } else {
-        final result = await ImageGallerySaver.saveImage(Uint8List.fromList(bytes)) as Map?;
+        final result =
+            await ImageGallerySaver.saveImage(Uint8List.fromList(bytes))
+                as Map?;
         emit(
           state.copyWith(
-            downloadStatus: () => (result?.containsKey('isSuccess') ?? false) && (result?['isSuccess'] ?? false) == true
+            downloadStatus: () => (result?.containsKey('isSuccess') ?? false) &&
+                    (result?['isSuccess'] ?? false) == true
                 ? CoffeePictureDownloadStatus.success
                 : CoffeePictureDownloadStatus.failure,
           ),
         );
       }
     } on Exception {
-      emit(state.copyWith(downloadStatus: () => CoffeePictureDownloadStatus.failure));
+      emit(state.copyWith(
+          downloadStatus: () => CoffeePictureDownloadStatus.failure));
     }
   }
 }
