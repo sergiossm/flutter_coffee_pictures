@@ -10,3 +10,12 @@ abstract class CoffeePictureEvent extends Equatable {
 class CoffeePictureSubscriptionRequested extends CoffeePictureEvent {
   const CoffeePictureSubscriptionRequested();
 }
+
+class CoffeePictureDownloadRequested extends CoffeePictureEvent {
+  const CoffeePictureDownloadRequested(this.coffeePicture);
+
+  final CoffeePicture coffeePicture;
+
+  @override
+  List<Object> get props => [coffeePicture];
+}

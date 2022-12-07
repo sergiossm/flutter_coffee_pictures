@@ -15,4 +15,9 @@ class CoffeePicturesRepository {
   ///
   /// Returns a random coffee picture.
   Future<CoffeePicture> fetchCoffeePicture() => _coffeePicturesApi.fetchCoffeePicture();
+
+  /// Downloads a coffee picture
+  ///
+  ///
+  Future<List<int>> downloadCoffeePicture({required String url}) => _coffeePicturesApi.downloadCoffeePicture(url: url);
 }

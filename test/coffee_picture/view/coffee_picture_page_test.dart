@@ -9,15 +9,12 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 // ignore: lines_longer_than_80_chars
-class MockCoffeePicturesRepository extends Mock
-    implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
 // ignore: lines_longer_than_80_chars
-class MockCoffeePictureBloc
-    extends MockBloc<CoffeePictureEvent, CoffeePictureState>
-    implements CoffeePictureBloc {}
+class MockCoffeePictureBloc extends MockBloc<CoffeePictureEvent, CoffeePictureState> implements CoffeePictureBloc {}
 
 void main() {
   late CoffeePicture coffeePicture;
@@ -66,25 +63,6 @@ void main() {
         ),
       );
     });
-
-    testWidgets(
-      'renders AppBar with title text',
-      (widgetTester) async {
-        await widgetTester.pumpApp(
-          const CoffeePicturePage(),
-          coffeePicturesRepository: coffeePicturesRepository,
-        );
-
-        expect(find.byType(AppBar), findsOneWidget);
-        expect(
-          find.descendant(
-            of: find.byType(AppBar),
-            matching: find.text(l10n.coffeePictureAppBarTitle),
-          ),
-          findsOneWidget,
-        );
-      },
-    );
 
     testWidgets(
       'renders error Snackbar when status changes to failure',

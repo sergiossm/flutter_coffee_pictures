@@ -28,14 +28,10 @@ class CoffeePictureView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.coffeePictureAppBarTitle),
-      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<CoffeePictureBloc, CoffeePictureState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
+            listenWhen: (previous, current) => previous.status != current.status,
             listener: (context, state) {
               if (state.status == CoffeePictureStatus.failure) {
                 ScaffoldMessenger.of(context)
@@ -48,12 +44,33 @@ class CoffeePictureView extends StatelessWidget {
               }
             },
           ),
+          BlocListener<CoffeePictureBloc, CoffeePictureState>(
+            listenWhen: (previous, current) => previous.downloadStatus != current.downloadStatus,
+            listener: (context, state) {
+              if (state.downloadStatus == CoffeePictureDownloadStatus.failure) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.coffeePictureDownloadErrorSnackbarText),
+                    ),
+                  );
+              } else if (state.downloadStatus == CoffeePictureDownloadStatus.success) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.coffeePictureDownloadSnackbarText),
+                    ),
+                  );
+              }
+            },
+          ),
         ],
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
             if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial ||
-                  state.status == CoffeePictureStatus.loading) {
+              if (state.status == CoffeePictureStatus.initial || state.status == CoffeePictureStatus.loading) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
@@ -63,8 +80,27 @@ class CoffeePictureView extends StatelessWidget {
             }
 
             final coffeePicture = state.coffeePicture!;
-            return Center(
-              child: Text(coffeePicture.file),
+            return Stack(
+              children: [
+                Center(
+                  child: Text(coffeePicture.file),
+                ),
+                Positioned(
+                  top: 80,
+                  right: 20,
+                  child: state.downloadStatus == CoffeePictureDownloadStatus.initial
+                      ? TextButton.icon(
+                          onPressed: () {
+                            context.read<CoffeePictureBloc>().add(CoffeePictureDownloadRequested(coffeePicture));
+                          },
+                          icon: const Icon(Icons.cloud_download_rounded),
+                          label: Text('Download'),
+                        )
+                      : state.downloadStatus == CoffeePictureDownloadStatus.downloading
+                          ? const CircularProgressIndicator.adaptive()
+                          : const SizedBox(),
+                ),
+              ],
             );
           },
         ),

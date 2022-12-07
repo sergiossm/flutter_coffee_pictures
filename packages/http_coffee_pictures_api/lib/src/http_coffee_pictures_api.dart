@@ -1,5 +1,6 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:coffee_pictures_api/coffee_pictures_api.dart';
@@ -36,5 +37,21 @@ class HttpCoffeePicturesApi extends CoffeePicturesApi {
     }
 
     return CoffeePicture.fromJson(bodyJson);
+  }
+
+  @override
+  Future<List<int>> downloadCoffeePicture({required String url}) async {
+    final request = http.Request('GET', Uri.parse(url));
+    final response = await _httpClient.send(request);
+
+    final bytes = <int>[];
+    late StreamSubscription<List<int>> subscription;
+    subscription = response.stream.listen(
+      bytes.addAll,
+      onDone: () {
+        subscription.cancel();
+      },
+    );
+    return subscription.asFuture(bytes);
   }
 }

@@ -7,11 +7,9 @@ void main() {
     'Coffee picture',
     () {
       CoffeePicture createSubject({
-        String? id = '1',
         String file = 'file',
-        bool isDownloaded = true,
       }) {
-        return CoffeePicture(id: id, file: file, isDownloaded: isDownloaded);
+        return CoffeePicture(file: file);
       }
 
       group('constructor', () {
@@ -22,17 +20,10 @@ void main() {
           );
         });
 
-        test('throws AssertionError when id is empty', () {
+        test('throws AssertionError when file is empty', () {
           expect(
-            () => createSubject(id: ''),
+            () => createSubject(file: ''),
             throwsA(isA<AssertionError>()),
-          );
-        });
-
-        test('sets id if not provided', () {
-          expect(
-            createSubject(id: null).id,
-            isNotEmpty,
           );
         });
       });
@@ -67,11 +58,7 @@ void main() {
           'retains the old value for every parameter if null is provided',
           () {
             expect(
-              createSubject().copyWith(
-                id: null,
-                file: null,
-                isDownloaded: null,
-              ),
+              createSubject().copyWith(file: null),
               equals(createSubject()),
             );
           },
@@ -79,18 +66,8 @@ void main() {
 
         test('replaces every non-null parameter', () {
           expect(
-            createSubject().copyWith(
-              id: '2',
-              file: 'new file',
-              isDownloaded: false,
-            ),
-            equals(
-              createSubject(
-                id: '2',
-                file: 'new file',
-                isDownloaded: false,
-              ),
-            ),
+            createSubject().copyWith(file: 'new file'),
+            equals(createSubject(file: 'new file')),
           );
         });
         group('fromJson', () {

@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:coffee_pictures_api/coffee_pictures_api.dart';
 
 /// Exception thrown when fetchCoffeePicture fails.
@@ -17,4 +19,9 @@ abstract class CoffeePicturesApi {
   ///
   /// Returns a random coffee picture.
   Future<CoffeePicture> fetchCoffeePicture();
+
+  /// Downloads a coffee picture
+  ///
+  ///
+  Future<List<int>> downloadCoffeePicture({required String url});
 }

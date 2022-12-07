@@ -48,6 +48,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your Photo Library to download the coffee pictures</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to your Photo Library to download the coffee pictures</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 </dict>

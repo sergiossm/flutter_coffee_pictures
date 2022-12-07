@@ -1,11 +1,15 @@
 {
     "@@locale": "en",
-    "coffeePictureAppBarTitle": "Coffee Pictures",
-    "@coffeePictureAppBarTitle": {
-        "description": "Text shown in the AppBar of the Coffee Pictures Page"
-    },
     "coffeePictureErrorSnackbarText": "An error occurred while loading the coffee picture",
     "@coffeePictureErrorSnackbarText": {
         "description": "Snackbar text shown when an error occurs while loading a coffee picture"
+    },
+    "coffeePictureDownloadSnackbarText": "Coffee picture downloaded successfully",
+    "@coffeePictureDownloadSnackbarText": {
+        "description": "Snackbar text shown when a coffee picture is successfully downloaded"
+    },
+    "coffeePictureDownloadErrorSnackbarText": "An error occurred while downloading the coffee picture",
+    "@coffeePictureDownloadErrorSnackbarText": {
+        "description": "Snackbar text shown when an error occurs while downloading a coffee picture"
     }
 }
