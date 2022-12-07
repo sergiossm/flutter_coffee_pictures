@@ -5,7 +5,8 @@ import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
@@ -58,7 +59,8 @@ void main() {
             );
           });
 
-          test('retains the old value for every parameter if null is provided', () {
+          test('retains the old value for every parameter if null is provided',
+              () {
             expect(
               createSubject().copyWith(
                 status: null,

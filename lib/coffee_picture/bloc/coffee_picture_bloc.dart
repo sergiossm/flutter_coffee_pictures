@@ -49,12 +49,18 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
       'Coffee picture can not be null or should not be empty',
     );
 
-    emit(state.copyWith(downloadStatus: () => CoffeePictureDownloadStatus.downloading));
+    emit(
+      state.copyWith(
+        downloadStatus: () => CoffeePictureDownloadStatus.downloading,
+      ),
+    );
     try {
       final bytes = await _coffeePicturesRepository.downloadCoffeePicture(url: state.coffeePicture!.file);
 
       if (bytes.isEmpty) {
-        emit(state.copyWith(downloadStatus: () => CoffeePictureDownloadStatus.failure));
+        emit(
+          state.copyWith(downloadStatus: () => CoffeePictureDownloadStatus.failure),
+        );
       } else {
         final result = await ImageGallerySaver.saveImage(Uint8List.fromList(bytes)) as Map?;
         emit(

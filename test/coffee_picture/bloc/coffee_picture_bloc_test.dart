@@ -6,7 +6,8 @@ import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
@@ -27,11 +28,14 @@ void main() {
       coffeePicturesRepository = MockCoffeePicturesRepository();
       coffeePicture = MockCoffeePicture();
       when(() => coffeePicture.file).thenReturn(file);
-      when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) async => coffeePicture);
+      when(() => coffeePicturesRepository.fetchCoffeePicture())
+          .thenAnswer((_) async => coffeePicture);
     });
 
     CoffeePictureBloc buildBloc() {
-      return CoffeePictureBloc(coffeePicturesRepository: coffeePicturesRepository);
+      return CoffeePictureBloc(
+        coffeePicturesRepository: coffeePicturesRepository,
+      );
     }
 
     group('constructor', () {
@@ -59,7 +63,8 @@ void main() {
         'emits state with failure status '
         'when repository getTodos stream emits error',
         setUp: () {
-          when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) => Future.error(Exception('oops')));
+          when(() => coffeePicturesRepository.fetchCoffeePicture())
+              .thenAnswer((_) => Future.error(Exception('oops')));
         },
         build: buildBloc,
         act: (bloc) => bloc.add(const CoffeePictureSubscriptionRequested()),

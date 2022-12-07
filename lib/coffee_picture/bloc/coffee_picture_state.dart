@@ -25,8 +25,10 @@ class CoffeePictureState extends Equatable {
   }) {
     return CoffeePictureState(
       status: status != null ? status() : this.status,
-      downloadStatus: downloadStatus != null ? downloadStatus() : this.downloadStatus,
-      coffeePicture: coffeePicture != null ? coffeePicture() : this.coffeePicture,
+      downloadStatus:
+          downloadStatus != null ? downloadStatus() : this.downloadStatus,
+      coffeePicture:
+          coffeePicture != null ? coffeePicture() : this.coffeePicture,
     );
   }
 

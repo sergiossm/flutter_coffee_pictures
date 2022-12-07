@@ -11,5 +11,9 @@
     "coffeePictureDownloadErrorSnackbarText": "An error occurred while downloading the coffee picture",
     "@coffeePictureDownloadErrorSnackbarText": {
         "description": "Snackbar text shown when an error occurs while downloading a coffee picture"
+    },
+    "download": "Download",
+    "@download": {
+        "description": "Download"
     }
 }
