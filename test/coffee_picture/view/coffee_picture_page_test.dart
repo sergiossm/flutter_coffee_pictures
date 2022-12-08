@@ -8,12 +8,15 @@ import 'package:mocktail/mocktail.dart';
 import '../../helpers/helpers.dart';
 
 // ignore: lines_longer_than_80_chars
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
 // ignore: lines_longer_than_80_chars
-class MockCoffeePictureBloc extends MockBloc<CoffeePictureEvent, CoffeePictureState> implements CoffeePictureBloc {}
+class MockCoffeePictureBloc
+    extends MockBloc<CoffeePictureEvent, CoffeePictureState>
+    implements CoffeePictureBloc {}
 
 void main() {
   late CoffeePicture coffeePicture;

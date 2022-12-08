@@ -7,7 +7,8 @@ import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
@@ -29,7 +30,8 @@ void main() {
 
     setUp(() {
       coffeePicturesRepository = MockCoffeePicturesRepository();
-      when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) => Future.value(mockCoffeePicture));
+      when(() => coffeePicturesRepository.fetchCoffeePicture())
+          .thenAnswer((_) => Future.value(mockCoffeePicture));
     });
 
     CoffeePictureBloc buildBloc() {
@@ -63,7 +65,8 @@ void main() {
         'emits state with failure status '
         'when repository getTodos stream emits error',
         setUp: () {
-          when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) => Future.error(Exception('oops')));
+          when(() => coffeePicturesRepository.fetchCoffeePicture())
+              .thenAnswer((_) => Future.error(Exception('oops')));
         },
         build: buildBloc,
         act: (bloc) => bloc.add(const CoffeePictureSubscriptionRequested()),
@@ -88,7 +91,8 @@ void main() {
         'emits state with failure status '
         'when repository getTodos stream emits error',
         setUp: () {
-          when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) => Future.error(Exception('oops')));
+          when(() => coffeePicturesRepository.fetchCoffeePicture())
+              .thenAnswer((_) => Future.error(Exception('oops')));
         },
         build: buildBloc,
         act: (bloc) => bloc.add(const CoffeePictureRefreshRequested()),
@@ -103,7 +107,8 @@ void main() {
       blocTest<CoffeePictureBloc, CoffeePictureState>(
         'emits nothing when coffee picture is null',
         build: buildBloc,
-        act: (bloc) => bloc.add(CoffeePictureDownloadRequested(mockCoffeePicture)),
+        act: (bloc) =>
+            bloc.add(CoffeePictureDownloadRequested(mockCoffeePicture)),
         expect: () => <CoffeePictureState>[],
       );
 
@@ -111,15 +116,21 @@ void main() {
         'emits [downloading, failure] when downloadCoffeePicture returns an empty image',
         setUp: () {
           when(
-            () => coffeePicturesRepository.downloadCoffeePicture(url: mockCoffeePicture.file),
+            () => coffeePicturesRepository.downloadCoffeePicture(
+                url: mockCoffeePicture.file),
           ).thenAnswer((_) async => []);
         },
         seed: () => CoffeePictureState(coffeePicture: mockCoffeePicture),
         build: buildBloc,
-        act: (bloc) => bloc.add(CoffeePictureDownloadRequested(mockCoffeePicture)),
+        act: (bloc) =>
+            bloc.add(CoffeePictureDownloadRequested(mockCoffeePicture)),
         expect: () => <CoffeePictureState>[
-          CoffeePictureState(downloadStatus: CoffeePictureDownloadStatus.downloading, coffeePicture: mockCoffeePicture),
-          CoffeePictureState(downloadStatus: CoffeePictureDownloadStatus.failure, coffeePicture: mockCoffeePicture),
+          CoffeePictureState(
+              downloadStatus: CoffeePictureDownloadStatus.downloading,
+              coffeePicture: mockCoffeePicture),
+          CoffeePictureState(
+              downloadStatus: CoffeePictureDownloadStatus.failure,
+              coffeePicture: mockCoffeePicture),
         ],
       );
     });
