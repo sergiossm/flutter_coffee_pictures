@@ -1,10 +1,11 @@
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: lines_longer_than_80_chars, no_default_cases
 
 import 'package:coffee_pictures_repository/coffee_pictures_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.dart';
 import 'package:flutter_coffee_pictures/l10n/l10n.dart';
+import 'package:shimmer_image/shimmer_image.dart';
 
 class CoffeePicturePage extends StatelessWidget {
   const CoffeePicturePage({super.key});
@@ -28,11 +29,13 @@ class CoffeePictureView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.coffeePictureAppBarText),
+      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<CoffeePictureBloc, CoffeePictureState>(
-            listenWhen: (previous, current) =>
-                previous.status != current.status,
+            listenWhen: (previous, current) => previous.status != current.status,
             listener: (context, state) {
               if (state.status == CoffeePictureStatus.failure) {
                 ScaffoldMessenger.of(context)
@@ -46,20 +49,17 @@ class CoffeePictureView extends StatelessWidget {
             },
           ),
           BlocListener<CoffeePictureBloc, CoffeePictureState>(
-            listenWhen: (previous, current) =>
-                previous.downloadStatus != current.downloadStatus,
+            listenWhen: (previous, current) => previous.downloadStatus != current.downloadStatus,
             listener: (context, state) {
               if (state.downloadStatus == CoffeePictureDownloadStatus.failure) {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
                     SnackBar(
-                      content:
-                          Text(l10n.coffeePictureDownloadErrorSnackbarText),
+                      content: Text(l10n.coffeePictureDownloadErrorSnackbarText),
                     ),
                   );
-              } else if (state.downloadStatus ==
-                  CoffeePictureDownloadStatus.success) {
+              } else if (state.downloadStatus == CoffeePictureDownloadStatus.success) {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
@@ -74,8 +74,7 @@ class CoffeePictureView extends StatelessWidget {
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
             if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial ||
-                  state.status == CoffeePictureStatus.loading) {
+              if (state.status == CoffeePictureStatus.initial || state.status == CoffeePictureStatus.loading) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
@@ -85,34 +84,67 @@ class CoffeePictureView extends StatelessWidget {
             }
 
             final coffeePicture = state.coffeePicture!;
-            return Stack(
+            return Column(
               children: [
-                Center(
-                  child: Text(coffeePicture.file),
+                Expanded(
+                  flex: 6,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: ProgressiveImage(
+                            image: coffeePicture.file,
+                            height: double.maxFinite,
+                            width: double.maxFinite,
+                          ),
+                        ),
+                        if (state.downloadStatus == CoffeePictureDownloadStatus.success)
+                          const SizedBox()
+                        else
+                          Positioned(
+                            top: 24,
+                            right: 24,
+                            child: OutlinedButton(
+                              onPressed: () {
+                                if (state.downloadStatus == CoffeePictureDownloadStatus.initial) {
+                                  context.read<CoffeePictureBloc>().add(
+                                        CoffeePictureDownloadRequested(coffeePicture),
+                                      );
+                                }
+                              },
+                              child: () {
+                                switch (state.downloadStatus) {
+                                  case CoffeePictureDownloadStatus.downloading:
+                                    return const CircularProgressIndicator.adaptive();
+                                  case CoffeePictureDownloadStatus.initial:
+                                    return const FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Icon(Icons.cloud_download_rounded),
+                                    );
+                                  default:
+                                    return const SizedBox();
+                                }
+                              }(),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
                 ),
-                Positioned(
-                  top: 80,
-                  right: 20,
-                  child: state.downloadStatus ==
-                          CoffeePictureDownloadStatus.initial
-                      ? TextButton.icon(
-                          onPressed: () {
-                            context.read<CoffeePictureBloc>().add(
-                                  CoffeePictureDownloadRequested(coffeePicture),
-                                );
-                          },
-                          icon: const Icon(Icons.cloud_download_rounded),
-                          label: Text(l10n.download),
-                        )
-                      : state.downloadStatus ==
-                              CoffeePictureDownloadStatus.downloading
-                          ? const CircularProgressIndicator.adaptive()
-                          : const SizedBox(),
-                ),
+                const Expanded(child: SizedBox()),
               ],
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.read<CoffeePictureBloc>().add(const CoffeePictureRefreshRequested());
+        },
+        label: Text(l10n.coffeePictureRefreshFABText),
+        icon: const Icon(Icons.refresh),
       ),
     );
   }

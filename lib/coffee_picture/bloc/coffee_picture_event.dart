@@ -19,3 +19,7 @@ class CoffeePictureDownloadRequested extends CoffeePictureEvent {
   @override
   List<Object> get props => [coffeePicture];
 }
+
+class CoffeePictureRefreshRequested extends CoffeePictureEvent {
+  const CoffeePictureRefreshRequested();
+}

@@ -17,14 +17,12 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
         super(const CoffeePictureState()) {
     on<CoffeePictureSubscriptionRequested>(_onSubscriptionRequested);
     on<CoffeePictureDownloadRequested>(_onCoffeePictureDownloadRequested);
+    on<CoffeePictureRefreshRequested>(_onCoffeePictureRefreshRequested);
   }
 
   final CoffeePicturesRepository _coffeePicturesRepository;
 
-  Future<void> _onSubscriptionRequested(
-    CoffeePictureSubscriptionRequested event,
-    Emitter<CoffeePictureState> emit,
-  ) async {
+  Future<void> _fetchCoffeePicture(Emitter<CoffeePictureState> emit) async {
     emit(state.copyWith(status: () => CoffeePictureStatus.loading));
 
     try {
@@ -39,6 +37,18 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
       emit(state.copyWith(status: () => CoffeePictureStatus.failure));
     }
   }
+
+  Future<void> _onSubscriptionRequested(
+    CoffeePictureSubscriptionRequested _,
+    Emitter<CoffeePictureState> emit,
+  ) =>
+      _fetchCoffeePicture(emit);
+
+  Future<void> _onCoffeePictureRefreshRequested(
+    CoffeePictureRefreshRequested event,
+    Emitter<CoffeePictureState> emit,
+  ) =>
+      _fetchCoffeePicture(emit);
 
   Future<void> _onCoffeePictureDownloadRequested(
     CoffeePictureDownloadRequested event,
