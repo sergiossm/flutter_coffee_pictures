@@ -38,11 +38,7 @@ void main() {
       test('props are correct', () {
         expect(
           createSubject().props,
-          equals([
-            '1', // id
-            'file', // file
-            true, // isDownloaded
-          ]),
+          equals(['file']),
         );
       });
 
@@ -73,11 +69,7 @@ void main() {
         group('fromJson', () {
           test('works correctly', () {
             expect(
-              CoffeePicture.fromJson(<String, dynamic>{
-                'id': '1',
-                'file': 'file',
-                'isDownloaded': true,
-              }),
+              CoffeePicture.fromJson(<String, dynamic>{'file': 'file'}),
               equals(createSubject()),
             );
           });
@@ -87,11 +79,7 @@ void main() {
           test('works correctly', () {
             expect(
               createSubject().toJson(),
-              equals(<String, dynamic>{
-                'id': '1',
-                'file': 'file',
-                'isDownloaded': true,
-              }),
+              equals(<String, dynamic>{'file': 'file'}),
             );
           });
         });
