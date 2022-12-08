@@ -2,7 +2,6 @@ import 'package:coffee_pictures_repository/coffee_pictures_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_coffee_pictures/app/app.dart';
-import 'package:flutter_coffee_pictures/theme/theme.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -46,12 +45,6 @@ void main() {
       );
 
       expect(find.byType(MaterialApp), findsOneWidget);
-
-      final materialApp = widgetTester.widget<MaterialApp>(
-        find.byType(MaterialApp),
-      );
-      expect(materialApp.theme, equals(FlutterCoffeePicturesTheme.light));
-      expect(materialApp.darkTheme, equals(FlutterCoffeePicturesTheme.dark));
     });
 
     testWidgets('renders CoffeePicturePage', (widgetTester) async {

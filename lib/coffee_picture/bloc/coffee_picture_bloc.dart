@@ -54,10 +54,7 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
     CoffeePictureDownloadRequested event,
     Emitter<CoffeePictureState> emit,
   ) async {
-    assert(
-      state.coffeePicture != null && state.coffeePicture!.file.isNotEmpty,
-      'Coffee picture can not be null or should not be empty',
-    );
+    if (state.coffeePicture == null || state.coffeePicture?.file == null) return;
 
     emit(
       state.copyWith(
