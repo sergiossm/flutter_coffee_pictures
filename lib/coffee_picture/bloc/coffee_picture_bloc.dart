@@ -55,8 +55,9 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
     CoffeePictureDownloadRequested event,
     Emitter<CoffeePictureState> emit,
   ) async {
-    if (state.coffeePicture == null || state.coffeePicture?.file == null)
+    if (state.coffeePicture == null || state.coffeePicture?.file == null) {
       return;
+    }
 
     emit(
       state.copyWith(
