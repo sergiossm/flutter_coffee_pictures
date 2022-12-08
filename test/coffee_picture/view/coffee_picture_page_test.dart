@@ -11,19 +11,25 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
-class MockCoffeePictureBloc extends MockBloc<CoffeePictureEvent, CoffeePictureState> implements CoffeePictureBloc {}
+class MockCoffeePictureBloc
+    extends MockBloc<CoffeePictureEvent, CoffeePictureState>
+    implements CoffeePictureBloc {}
 
 void main() {
   late CoffeePicturesRepository coffeePicturesRepository;
-  final coffeePicture = CoffeePicture(file: 'https://coffee.alexflipnote.dev/BYf2UB0AGTM_coffee.jpg');
+  final coffeePicture = CoffeePicture(
+    file: 'https://coffee.alexflipnote.dev/BYf2UB0AGTM_coffee.jpg',
+  );
 
   setUp(() {
     coffeePicturesRepository = MockCoffeePicturesRepository();
-    when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) async => coffeePicture);
+    when(() => coffeePicturesRepository.fetchCoffeePicture())
+        .thenAnswer((_) async => coffeePicture);
   });
 
   group('CoffeePicturePage', () {
@@ -76,7 +82,8 @@ void main() {
 
         expect(find.byKey(refreshFloatingActionButtonKey), findsOneWidget);
 
-        final refreshFloatingActionButton = widgetTester.widget(find.byKey(refreshFloatingActionButtonKey));
+        final refreshFloatingActionButton =
+            widgetTester.widget(find.byKey(refreshFloatingActionButtonKey));
         expect(refreshFloatingActionButton, isA<FloatingActionButton>());
       });
 
@@ -90,7 +97,9 @@ void main() {
 
         await widgetTester.tap(find.byKey(refreshFloatingActionButtonKey));
 
-        verify(() => coffeePictureBloc.add(const CoffeePictureRefreshRequested())).called(1);
+        verify(
+          () => coffeePictureBloc.add(const CoffeePictureRefreshRequested()),
+        ).called(1);
       });
     });
 
@@ -105,7 +114,8 @@ void main() {
 
         expect(find.byKey(downloadOutlinedButtonKey), findsOneWidget);
 
-        final downloadOutlinedButton = widgetTester.widget(find.byKey(downloadOutlinedButtonKey));
+        final downloadOutlinedButton =
+            widgetTester.widget(find.byKey(downloadOutlinedButtonKey));
         expect(downloadOutlinedButton, isA<OutlinedButton>());
       });
 
@@ -128,7 +138,8 @@ void main() {
 
           expect(find.byKey(emptySizedBoxKey), findsOneWidget);
 
-          final emptySizedBox = widgetTester.widget(find.byKey(emptySizedBoxKey));
+          final emptySizedBox =
+              widgetTester.widget(find.byKey(emptySizedBoxKey));
           expect(emptySizedBox, isA<SizedBox>());
         },
       );
@@ -143,7 +154,10 @@ void main() {
 
         await widgetTester.tap(find.byKey(downloadOutlinedButtonKey));
 
-        verify(() => coffeePictureBloc.add(CoffeePictureDownloadRequested(coffeePicture))).called(1);
+        verify(
+          () => coffeePictureBloc
+              .add(CoffeePictureDownloadRequested(coffeePicture)),
+        ).called(1);
       });
     });
   });
