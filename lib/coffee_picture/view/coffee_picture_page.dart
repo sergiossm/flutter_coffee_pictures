@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.dart';
 import 'package:flutter_coffee_pictures/l10n/l10n.dart';
-import 'package:shimmer_image/shimmer_image.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CoffeePicturePage extends StatelessWidget {
   const CoffeePicturePage({super.key});
@@ -77,15 +77,11 @@ class CoffeePictureView extends StatelessWidget {
         ],
         child: BlocBuilder<CoffeePictureBloc, CoffeePictureState>(
           builder: (context, state) {
-            if (state.coffeePicture == null) {
-              if (state.status == CoffeePictureStatus.initial ||
-                  state.status == CoffeePictureStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
-              } else if (state.status != CoffeePictureStatus.success) {
-                return const SizedBox();
-              }
+            if (state.coffeePicture == null ||
+                state.status == CoffeePictureStatus.loading) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
             }
 
             final coffeePicture = state.coffeePicture!;
@@ -102,51 +98,40 @@ class CoffeePictureView extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: ProgressiveImage(
+                          child: FadeInImage.memoryNetwork(
                             image: coffeePicture.file,
+                            placeholder: kTransparentImage,
+                            fit: BoxFit.cover,
                             height: double.maxFinite,
                             width: double.maxFinite,
                           ),
                         ),
-                        if (state.downloadStatus ==
-                            CoffeePictureDownloadStatus.success)
-                          const SizedBox(
-                            key: Key('coffeePictureView_empty_sizedBox'),
-                          )
-                        else
-                          Positioned(
-                            top: 24,
-                            right: 24,
-                            child: OutlinedButton(
-                              key: const Key(
-                                'coffeePictureView_download_outlinedButton',
-                              ),
-                              onPressed: () {
-                                if (state.downloadStatus ==
-                                    CoffeePictureDownloadStatus.initial) {
-                                  context.read<CoffeePictureBloc>().add(
-                                        CoffeePictureDownloadRequested(
-                                          coffeePicture,
-                                        ),
-                                      );
-                                }
-                              },
-                              child: () {
-                                switch (state.downloadStatus) {
-                                  case CoffeePictureDownloadStatus.downloading:
-                                    return const CircularProgressIndicator
-                                        .adaptive();
-                                  case CoffeePictureDownloadStatus.initial:
-                                    return const FittedBox(
-                                      fit: BoxFit.fitWidth,
-                                      child: Icon(Icons.cloud_download_rounded),
-                                    );
-                                  default:
-                                    return const SizedBox();
-                                }
-                              }(),
+                        Positioned(
+                          top: 24,
+                          right: 24,
+                          child: OutlinedButton(
+                            key: const Key(
+                              'coffeePictureView_download_outlinedButton',
                             ),
-                          )
+                            onPressed: () {
+                              if (state.downloadStatus ==
+                                  CoffeePictureDownloadStatus.initial) {
+                                context.read<CoffeePictureBloc>().add(
+                                      CoffeePictureDownloadRequested(
+                                        coffeePicture,
+                                      ),
+                                    );
+                              }
+                            },
+                            child: state.downloadStatus ==
+                                    CoffeePictureDownloadStatus.downloading
+                                ? const CircularProgressIndicator.adaptive()
+                                : const FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Icon(Icons.cloud_download_rounded),
+                                  ),
+                          ),
+                        )
                       ],
                     ),
                   ),

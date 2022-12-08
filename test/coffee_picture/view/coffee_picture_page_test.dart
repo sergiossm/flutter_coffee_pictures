@@ -8,14 +8,18 @@ import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.
 import 'package:flutter_coffee_pictures/coffee_picture/view/view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../helpers/helpers.dart';
 
-class MockCoffeePicturesRepository extends Mock implements CoffeePicturesRepository {}
+class MockCoffeePicturesRepository extends Mock
+    implements CoffeePicturesRepository {}
 
 class MockCoffeePicture extends Mock implements CoffeePicture {}
 
-class MockCoffeePictureBloc extends MockBloc<CoffeePictureEvent, CoffeePictureState> implements CoffeePictureBloc {}
+class MockCoffeePictureBloc
+    extends MockBloc<CoffeePictureEvent, CoffeePictureState>
+    implements CoffeePictureBloc {}
 
 void main() {
   late CoffeePicturesRepository coffeePicturesRepository;
@@ -25,14 +29,17 @@ void main() {
 
   setUp(() {
     coffeePicturesRepository = MockCoffeePicturesRepository();
-    when(() => coffeePicturesRepository.fetchCoffeePicture()).thenAnswer((_) async => coffeePicture);
+    when(() => coffeePicturesRepository.fetchCoffeePicture())
+        .thenAnswer((_) async => coffeePicture);
   });
 
   group('CoffeePicturePage', () {
     testWidgets('renders CoffeePictureView', (tester) async {
-      await tester.pumpApp(
-        const CoffeePicturePage(),
-        coffeePicturesRepository: coffeePicturesRepository,
+      await mockNetworkImagesFor(
+        () => tester.pumpApp(
+          const CoffeePicturePage(),
+          coffeePicturesRepository: coffeePicturesRepository,
+        ),
       );
 
       expect(find.byType(CoffeePictureView), findsOneWidget);
@@ -45,9 +52,6 @@ void main() {
     );
     const downloadOutlinedButtonKey = Key(
       'coffeePictureView_download_outlinedButton',
-    );
-    const emptySizedBoxKey = Key(
-      'coffeePictureView_empty_sizedBox',
     );
 
     late CoffeePictureBloc coffeePictureBloc;
@@ -71,23 +75,28 @@ void main() {
 
     group('refresh floating action button ', () {
       testWidgets('is rendered', (widgetTester) async {
-        await widgetTester.pumpApp(
-          buildSubject(),
-          coffeePicturesRepository: coffeePicturesRepository,
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
         );
 
         expect(find.byKey(refreshFloatingActionButtonKey), findsOneWidget);
 
-        final refreshFloatingActionButton = widgetTester.widget(find.byKey(refreshFloatingActionButtonKey));
+        final refreshFloatingActionButton =
+            widgetTester.widget(find.byKey(refreshFloatingActionButtonKey));
         expect(refreshFloatingActionButton, isA<FloatingActionButton>());
       });
 
       testWidgets(
           'calls CoffeePictureRefreshRequested '
           'when is clicked', (widgetTester) async {
-        await widgetTester.pumpApp(
-          buildSubject(),
-          coffeePicturesRepository: coffeePicturesRepository,
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
         );
 
         await widgetTester.tap(find.byKey(refreshFloatingActionButtonKey));
@@ -102,82 +111,130 @@ void main() {
       testWidgets(
           'is rendered '
           'when downloadStatus is initial', (widgetTester) async {
-        await widgetTester.pumpApp(
-          buildSubject(),
-          coffeePicturesRepository: coffeePicturesRepository,
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
         );
 
         expect(find.byKey(downloadOutlinedButtonKey), findsOneWidget);
 
-        final downloadOutlinedButton = widgetTester.widget(find.byKey(downloadOutlinedButtonKey));
+        final downloadOutlinedButton =
+            widgetTester.widget(find.byKey(downloadOutlinedButtonKey));
         expect(downloadOutlinedButton, isA<OutlinedButton>());
       });
 
       testWidgets(
-        'is not rendered '
-        'when downloadedStatus is success',
-        (widgetTester) async {
-          when(() => coffeePictureBloc.state).thenReturn(
-            CoffeePictureState(
-              status: CoffeePictureStatus.success,
-              coffeePicture: coffeePicture,
-              downloadStatus: CoffeePictureDownloadStatus.success,
-            ),
-          );
-
-          await widgetTester.pumpApp(
-            buildSubject(),
-            coffeePicturesRepository: coffeePicturesRepository,
-          );
-
-          expect(find.byKey(emptySizedBoxKey), findsOneWidget);
-
-          final emptySizedBox = widgetTester.widget(find.byKey(emptySizedBoxKey));
-          expect(emptySizedBox, isA<SizedBox>());
-        },
-      );
-
-      testWidgets(
           'calls CoffeePictureDownloadRequested '
           'when is clicked', (widgetTester) async {
+        when(() => coffeePictureBloc.state).thenReturn(
+          CoffeePictureState(
+            status: CoffeePictureStatus.success,
+            coffeePicture: coffeePicture,
+          ),
+        );
+
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
+        );
+
+        await mockNetworkImagesFor(
+          () => widgetTester.tap(find.byKey(downloadOutlinedButtonKey)),
+        );
+
+        verify(
+          () => coffeePictureBloc
+              .add(CoffeePictureDownloadRequested(coffeePicture)),
+        ).called(1);
+      });
+    });
+
+    group('renders snackbar', () {
+      testWidgets('when status changes to failure', (widgetTester) async {
+        whenListen<CoffeePictureState>(
+          coffeePictureBloc,
+          Stream.fromIterable([
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+            ),
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+              status: CoffeePictureStatus.failure,
+            ),
+          ]),
+        );
+
         await widgetTester.pumpApp(
           buildSubject(),
           coffeePicturesRepository: coffeePicturesRepository,
         );
 
-        await widgetTester.tap(find.byKey(downloadOutlinedButtonKey));
+        await widgetTester.pumpAndSettle();
 
-        verify(
-          () => coffeePictureBloc.add(CoffeePictureDownloadRequested(coffeePicture)),
-        ).called(1);
+        expect(find.byType(SnackBar), findsOneWidget);
       });
-    });
 
-    testWidgets(
-        'renders error snackbar '
-        'when status changes to failure', (widgetTester) async {
-      whenListen<CoffeePictureState>(
-        coffeePictureBloc,
-        Stream.fromIterable([
-          const CoffeePictureState(),
-          const CoffeePictureState(status: CoffeePictureStatus.failure),
-        ]),
-      );
+      testWidgets('when download status changes to failure',
+          (widgetTester) async {
+        whenListen<CoffeePictureState>(
+          coffeePictureBloc,
+          Stream.fromIterable([
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+              status: CoffeePictureStatus.success,
+              downloadStatus: CoffeePictureDownloadStatus.downloading,
+            ),
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+              status: CoffeePictureStatus.success,
+              downloadStatus: CoffeePictureDownloadStatus.failure,
+            ),
+          ]),
+        );
 
-      await widgetTester.pumpApp(
-        buildSubject(),
-        coffeePicturesRepository: coffeePicturesRepository,
-      );
-      await widgetTester.pumpAndSettle();
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
+        );
+        await mockNetworkImagesFor(() => widgetTester.pumpAndSettle());
 
-      expect(find.byType(SnackBar), findsOneWidget);
-      expect(
-        find.descendant(
-          of: find.byType(SnackBar),
-          matching: find.text(l10n.coffeePictureErrorSnackbarText),
-        ),
-        findsOneWidget,
-      );
+        expect(find.byType(SnackBar), findsOneWidget);
+      });
+
+      testWidgets('when download status changes to success',
+          (widgetTester) async {
+        whenListen<CoffeePictureState>(
+          coffeePictureBloc,
+          Stream.fromIterable([
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+              status: CoffeePictureStatus.success,
+              downloadStatus: CoffeePictureDownloadStatus.downloading,
+            ),
+            CoffeePictureState(
+              coffeePicture: coffeePicture,
+              status: CoffeePictureStatus.success,
+              downloadStatus: CoffeePictureDownloadStatus.success,
+            ),
+          ]),
+        );
+
+        await mockNetworkImagesFor(
+          () => widgetTester.pumpApp(
+            buildSubject(),
+            coffeePicturesRepository: coffeePicturesRepository,
+          ),
+        );
+        await mockNetworkImagesFor(() => widgetTester.pumpAndSettle());
+
+        expect(find.byType(SnackBar), findsOneWidget);
+      });
     });
   });
 }

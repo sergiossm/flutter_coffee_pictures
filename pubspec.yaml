@@ -24,8 +24,7 @@ dependencies:
   image_gallery_saver: ^1.7.1
   intl: ^0.17.0
   json_annotation: ^4.7.0
-  shimmer_image: ^0.0.2
-
+  transparent_image: ^2.0.0
 
 dev_dependencies:
   bloc_test: ^9.1.0

@@ -79,14 +79,26 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
         final result =
             await ImageGallerySaver.saveImage(Uint8List.fromList(bytes))
                 as Map?;
-        emit(
-          state.copyWith(
-            downloadStatus: () => (result?.containsKey('isSuccess') ?? false) &&
-                    (result?['isSuccess'] ?? false) == true
-                ? CoffeePictureDownloadStatus.success
-                : CoffeePictureDownloadStatus.failure,
-          ),
-        );
+        final success = (result?.containsKey('isSuccess') ?? false) &&
+            (result?['isSuccess'] ?? false) == true;
+        if (success) {
+          emit(
+            state.copyWith(
+              downloadStatus: () => CoffeePictureDownloadStatus.success,
+            ),
+          );
+          emit(
+            state.copyWith(
+              downloadStatus: () => CoffeePictureDownloadStatus.initial,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              downloadStatus: () => CoffeePictureDownloadStatus.failure,
+            ),
+          );
+        }
       }
     } on Exception {
       emit(
