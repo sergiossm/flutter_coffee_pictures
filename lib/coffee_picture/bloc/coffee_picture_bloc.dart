@@ -72,7 +72,8 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
       if (bytes.isEmpty) {
         emit(
           state.copyWith(
-              downloadStatus: () => CoffeePictureDownloadStatus.failure),
+            downloadStatus: () => CoffeePictureDownloadStatus.failure,
+          ),
         );
       } else {
         final result =
@@ -88,8 +89,11 @@ class CoffeePictureBloc extends Bloc<CoffeePictureEvent, CoffeePictureState> {
         );
       }
     } on Exception {
-      emit(state.copyWith(
-          downloadStatus: () => CoffeePictureDownloadStatus.failure));
+      emit(
+        state.copyWith(
+          downloadStatus: () => CoffeePictureDownloadStatus.failure,
+        ),
+      );
     }
   }
 }

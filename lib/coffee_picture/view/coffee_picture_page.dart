@@ -95,7 +95,9 @@ class CoffeePictureView extends StatelessWidget {
                   flex: 6,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 32),
+                      horizontal: 24,
+                      vertical: 32,
+                    ),
                     child: Stack(
                       children: [
                         ClipRRect(
@@ -119,7 +121,8 @@ class CoffeePictureView extends StatelessWidget {
                                     CoffeePictureDownloadStatus.initial) {
                                   context.read<CoffeePictureBloc>().add(
                                         CoffeePictureDownloadRequested(
-                                            coffeePicture),
+                                          coffeePicture,
+                                        ),
                                       );
                                 }
                               },

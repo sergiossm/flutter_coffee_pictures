@@ -117,7 +117,8 @@ void main() {
         setUp: () {
           when(
             () => coffeePicturesRepository.downloadCoffeePicture(
-                url: mockCoffeePicture.file),
+              url: mockCoffeePicture.file,
+            ),
           ).thenAnswer((_) async => []);
         },
         seed: () => CoffeePictureState(coffeePicture: mockCoffeePicture),
@@ -126,11 +127,13 @@ void main() {
             bloc.add(CoffeePictureDownloadRequested(mockCoffeePicture)),
         expect: () => <CoffeePictureState>[
           CoffeePictureState(
-              downloadStatus: CoffeePictureDownloadStatus.downloading,
-              coffeePicture: mockCoffeePicture),
+            downloadStatus: CoffeePictureDownloadStatus.downloading,
+            coffeePicture: mockCoffeePicture,
+          ),
           CoffeePictureState(
-              downloadStatus: CoffeePictureDownloadStatus.failure,
-              coffeePicture: mockCoffeePicture),
+            downloadStatus: CoffeePictureDownloadStatus.failure,
+            coffeePicture: mockCoffeePicture,
+          ),
         ],
       );
     });
