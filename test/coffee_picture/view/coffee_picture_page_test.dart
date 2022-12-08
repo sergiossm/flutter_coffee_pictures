@@ -8,6 +8,7 @@ import 'package:flutter_coffee_pictures/coffee_picture/bloc/coffee_picture_bloc.
 import 'package:flutter_coffee_pictures/coffee_picture/view/view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -159,6 +160,35 @@ void main() {
               .add(CoffeePictureDownloadRequested(coffeePicture)),
         ).called(1);
       });
+    });
+
+    testWidgets(
+        'renders error snackbar '
+        'when status changes to failure', (widgetTester) async {
+      whenListen<CoffeePictureState>(
+        coffeePictureBloc,
+        Stream.fromIterable([
+          const CoffeePictureState(),
+          const CoffeePictureState(status: CoffeePictureStatus.failure),
+        ]),
+      );
+
+      await mockNetworkImagesFor(
+        () => widgetTester.pumpApp(
+          buildSubject(),
+          coffeePicturesRepository: coffeePicturesRepository,
+        ),
+      );
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(SnackBar),
+          matching: find.text(l10n.coffeePictureErrorSnackbarText),
+        ),
+        findsOneWidget,
+      );
     });
   });
 }
