@@ -11,6 +11,8 @@ void main() {
   group(
     'MockCoffeePicturesRepository',
     () {
+      const file = 'https://coffee.alexflipnote.dev/BYf2UB0AGTM_coffee.jpg';
+
       late CoffeePicturesApi coffeePicturesApi;
       late CoffeePicturesRepository coffeePicturesRepository;
 
@@ -37,8 +39,6 @@ void main() {
       group(
         'fetchCoffeePicture',
         () {
-          const file = 'https://coffee.alexflipnote.dev/BYf2UB0AGTM_coffee.jpg';
-
           test('makes correct api request', () async {
             final coffeePicture = MockCoffeePicture();
             when(() => coffeePicture.file).thenReturn(file);
@@ -60,6 +60,36 @@ void main() {
             );
             expect(
               () async => coffeePicturesRepository.fetchCoffeePicture(),
+              throwsA(exception),
+            );
+          });
+        },
+      );
+
+      group(
+        'downloadCoffeePicture',
+        () {
+          test('makes correct api request', () async {
+            when(
+              () => coffeePicturesApi.downloadCoffeePicture(url: file),
+            ).thenAnswer((_) async => [1]);
+            try {
+              await coffeePicturesRepository.downloadCoffeePicture(url: file);
+            } catch (_) {}
+            verify(
+              () => coffeePicturesApi.downloadCoffeePicture(url: file),
+            ).called(1);
+          });
+
+          test('throws when downloadCoffeePicture fails', () async {
+            final exception = Exception('oops');
+            when(
+              () => coffeePicturesApi.downloadCoffeePicture(url: file),
+            ).thenThrow(exception);
+            expect(
+              () async => coffeePicturesRepository.downloadCoffeePicture(
+                url: file,
+              ),
               throwsA(exception),
             );
           });

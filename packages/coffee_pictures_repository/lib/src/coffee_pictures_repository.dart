@@ -7,17 +7,20 @@ import 'package:coffee_pictures_api/coffee_pictures_api.dart';
 /// {@endtemplate}
 class CoffeePicturesRepository {
   /// {@macro coffee_pictures_repository}
-  const CoffeePicturesRepository({required CoffeePicturesApi coffeePicturesApi}) : _coffeePicturesApi = coffeePicturesApi;
+  const CoffeePicturesRepository({required CoffeePicturesApi coffeePicturesApi})
+      : _coffeePicturesApi = coffeePicturesApi;
 
   final CoffeePicturesApi _coffeePicturesApi;
 
   /// Fetches a coffee picture.
   ///
   /// Returns a random coffee picture.
-  Future<CoffeePicture> fetchCoffeePicture() => _coffeePicturesApi.fetchCoffeePicture();
+  Future<CoffeePicture> fetchCoffeePicture() =>
+      _coffeePicturesApi.fetchCoffeePicture();
 
   /// Downloads a coffee picture
   ///
   ///
-  Future<List<int>> downloadCoffeePicture({required String url}) => _coffeePicturesApi.downloadCoffeePicture(url: url);
+  Future<List<int>> downloadCoffeePicture({required String url}) =>
+      _coffeePicturesApi.downloadCoffeePicture(url: url);
 }
