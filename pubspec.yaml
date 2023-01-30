@@ -18,7 +18,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.1
   http_coffee_pictures_api:
     path: packages/http_coffee_pictures_api
   image_gallery_saver: ^1.7.1
