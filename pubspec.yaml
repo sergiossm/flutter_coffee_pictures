@@ -7,7 +7,7 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
-  bloc: ^8.1.0
+  bloc: ^8.1.1
   coffee_pictures_api:
     path: packages/coffee_pictures_api
   coffee_pictures_repository:
